@@ -1,5 +1,5 @@
 {
-  "name": "react-dates",
+  "name": "husky-react-dates",
   "version": "21.5.0",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",

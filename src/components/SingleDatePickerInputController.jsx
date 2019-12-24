@@ -19,10 +19,7 @@ import toLocalizedDateString from '../utils/toLocalizedDateString';
 
 import isInclusivelyAfterDay from '../utils/isInclusivelyAfterDay';
 
-import {
-  ICON_BEFORE_POSITION,
-  OPEN_DOWN,
-} from '../constants';
+import { ICON_BEFORE_POSITION, OPEN_DOWN } from '../constants';
 
 const propTypes = forbidExtraProps({
   children: PropTypes.node,
@@ -69,7 +66,7 @@ const propTypes = forbidExtraProps({
   // i18n
   phrases: PropTypes.shape(getPhrasePropTypes(SingleDatePickerInputPhrases)),
 
-  isRTL: PropTypes.bool,
+  isRTL: PropTypes.bool
 });
 
 const defaultProps = {
@@ -97,7 +94,7 @@ const defaultProps = {
 
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDate: false,
-  isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
   displayFormat: () => moment.localeData().longDateFormat('L'),
 
   onClose() {},
@@ -113,7 +110,7 @@ const defaultProps = {
   // i18n
   phrases: SingleDatePickerInputPhrases,
 
-  isRTL: false,
+  isRTL: false
 };
 
 export default class SingleDatePickerInputController extends React.PureComponent {
@@ -132,7 +129,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
       keepOpenOnDateSelect,
       onDateChange,
       onFocusChange,
-      onClose,
+      onClose
     } = this.props;
     const newDate = toMomentObject(dateString, this.getDisplayFormat());
 
@@ -148,12 +145,8 @@ export default class SingleDatePickerInputController extends React.PureComponent
     }
   }
 
-
   onFocus() {
-    const {
-      onFocusChange,
-      disabled,
-    } = this.props;
+    const { onFocusChange, disabled } = this.props;
 
     if (!disabled) {
       onFocusChange({ focused: true });
@@ -161,12 +154,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
   }
 
   onClearFocus() {
-    const {
-      focused,
-      onFocusChange,
-      onClose,
-      date,
-    } = this.props;
+    const { focused, onFocusChange, onClose, date } = this.props;
     if (!focused) return;
 
     onFocusChange({ focused: false });
@@ -179,11 +167,16 @@ export default class SingleDatePickerInputController extends React.PureComponent
   }
 
   getDateString(date) {
-    const displayFormat = this.getDisplayFormat();
-    if (date && displayFormat) {
-      return date && date.format(displayFormat);
+    const { displayFormat } = this.props;
+    if (typeof displayFormat === 'string') {
+      if (date && displayFormat) {
+        return date && date.format(displayFormat);
+      }
+
+      return toLocalizedDateString(date);
+    } else {
+      return displayFormat(date);
     }
-    return toLocalizedDateString(date);
   }
 
   clearDate() {
@@ -222,7 +215,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
       block,
       small,
       regular,
-      verticalSpacing,
+      verticalSpacing
     } = this.props;
 
     const displayValue = this.getDateString(date);
